@@ -1002,6 +1002,7 @@ Examples:
     ``MessageHandler(filters.COMMAND, command_at_start_callback)``.
 """
 
+"""
 # case 1: message.entities is None
 c = Command(only_start=False)
 c.filter(Message(
@@ -1032,7 +1033,7 @@ c.filter(Message(
 print("Branch coverage:")
 for branch, hit in branch_coverage.items():
     print(f"{branch} was {'hit' if hit else 'not hit'}")
-
+"""
 
 class _Contact(MessageFilter):
     __slots__ = ()

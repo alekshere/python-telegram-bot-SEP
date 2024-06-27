@@ -19,6 +19,7 @@
 """This module contains the PicklePersistence class."""
 import pickle
 from copy import deepcopy
+from io import StringIO
 from pathlib import Path
 from typing import Any, Callable, Dict, Optional, Set, Tuple, Type, TypeVar, Union, cast, overload
 
@@ -129,23 +130,15 @@ class _BotUnpickler(pickle.Unpickler):
 
 
 """
-case 1: pid == _REPLACED_KNOWN_BOT
-we return self._bot
-case 2: pid == _REPLACED_UNKNOWN_BOT
-we return None
-case 3: pid != _REPLACED_KNOWN_BOT and pid != _REPLACED_UNKNOWN_BOT
-we raise pickle.UnpicklingError
-"""
+botUnpicker = _BotUnpickler(Bot("token"), file=StringIO())
 
-botUnpicker = _BotUnpickler(Bot("token"))
-
-# case 1:
+# case 1: pid == _REPLACED_KNOWN_BOT
 botUnpicker.persistent_load(_REPLACED_KNOWN_BOT)
 
-# case 2:
+# case 2: pid == _REPLACED_UNKNOWN_BOT
 botUnpicker.persistent_load(_REPLACED_UNKNOWN_BOT)
 
-# case 3:
+# case 3: pid != _REPLACED_KNOWN_BOT and pid != _REPLACED_UNKNOWN_BOT
 try:
     botUnpicker.persistent_load("unknown")
 except pickle.UnpicklingError:
@@ -154,7 +147,7 @@ except pickle.UnpicklingError:
 print("Branch coverage:")
 for branch, hit in branch_coverage.items():
     print(f"{branch} was {'hit' if hit else 'not hit'}")
-
+"""
 
 
 class PicklePersistence(BasePersistence[UD, CD, BD]):
