@@ -16,17 +16,20 @@
 #
 # You should have received a copy of the GNU Lesser Public License
 # along with this program.  If not, see [http://www.gnu.org/licenses/].
+import _pickle
 import datetime
 import gzip
 import os
 import pickle
 import sys
+from io import StringIO
 from pathlib import Path
 
 import pytest
 
-from telegram import Chat, Message, TelegramObject, Update, User
+from telegram import Chat, Message, TelegramObject, Update, User, Bot
 from telegram.ext import ContextTypes, PersistenceInput, PicklePersistence
+from telegram.ext._picklepersistence import _BotUnpickler, _REPLACED_UNKNOWN_BOT, _REPLACED_KNOWN_BOT
 from telegram.warnings import PTBUserWarning
 from tests.auxil.files import PROJECT_ROOT_PATH
 from tests.auxil.pytest_classes import make_bot
@@ -1003,3 +1006,28 @@ class TestPicklePersistence:
         await pickle_persistence.update_callback_data(callback_data)
 
         assert not pickle_persistence.filepath.is_file()
+
+
+class TestBotUnpickler:
+    def test_persistent_load_random_pid_should_yield_error(self):
+        unpickler = _BotUnpickler(
+            bot=Bot(token="123"),
+            file=StringIO()
+        )
+        with pytest.raises(_pickle.UnpicklingError, match="Found unknown persistent id when unpickling!"):
+            unpickler.persistent_load("123")
+
+    def test_persistent_load_certain_pid_should_yield_none(self):
+        unpickler = _BotUnpickler(
+            bot=Bot(token="123"),
+            file=StringIO()
+        )
+        assert unpickler.persistent_load(_REPLACED_UNKNOWN_BOT) is None
+
+    def test_persistent_load_certain_pid_should_yield_bot(self):
+        bot = Bot(token="123")
+        unpickler = _BotUnpickler(
+            bot=bot,
+            file=StringIO()
+        )
+        assert unpickler.persistent_load(_REPLACED_KNOWN_BOT) is bot

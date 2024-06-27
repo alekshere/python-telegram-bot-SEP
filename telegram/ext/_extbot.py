@@ -192,6 +192,7 @@ class ExtBot(Bot, Generic[RLARGS]):
         defaults: Optional["Defaults"] = None,
         arbitrary_callback_data: Union[bool, int] = False,
         local_mode: bool = False,
+        branch_coverage: Dict[str, bool] = None,
     ): ...
 
     @overload
@@ -208,6 +209,7 @@ class ExtBot(Bot, Generic[RLARGS]):
         arbitrary_callback_data: Union[bool, int] = False,
         local_mode: bool = False,
         rate_limiter: Optional["BaseRateLimiter[RLARGS]"] = None,
+        branch_coverage: Dict[str, bool] = None,
     ): ...
 
     def __init__(
@@ -223,6 +225,7 @@ class ExtBot(Bot, Generic[RLARGS]):
         arbitrary_callback_data: Union[bool, int] = False,
         local_mode: bool = False,
         rate_limiter: Optional["BaseRateLimiter[RLARGS]"] = None,
+        branch_coverage: Dict[str, bool] = None,
     ):
         super().__init__(
             token=token,
@@ -234,6 +237,12 @@ class ExtBot(Bot, Generic[RLARGS]):
             private_key_password=private_key_password,
             local_mode=local_mode,
         )
+
+        self._branch_coverage = branch_coverage or {
+            "101": False,
+            "102": False,
+        }
+
         with self._unfrozen():
             self._defaults: Optional[Defaults] = defaults
             self._rate_limiter: Optional[BaseRateLimiter] = rate_limiter
@@ -260,6 +269,9 @@ class ExtBot(Bot, Generic[RLARGS]):
             :obj:`str`
         """
         return build_repr_with_selected_attrs(self, token=self.token)
+
+    def get_branch_coverage(self):
+        return self._branch_coverage
 
     @classmethod
     def _warn(
@@ -545,11 +557,19 @@ class ExtBot(Bot, Generic[RLARGS]):
         # * Messages where via_bot is the bot
         # Finally there is effective_chat.pinned message, but that's only returned in get_chat
         if update.callback_query:
+            self._branch_coverage["101"] = True
             self._insert_callback_data(update.callback_query)
         # elif instead of if, as effective_message includes callback_query.message
         # and that has already been processed
         elif update.effective_message:
+            self._branch_coverage["102"] = True
             self._insert_callback_data(update.effective_message)
+    """
+    case 1: update.callback_query is not None
+    we process the callback query
+    case 2: update.effective_message is not None
+    we process the effective message
+    """
 
     def _insert_callback_data(self, obj: HandledTypes) -> HandledTypes:
         if self.callback_data_cache is None:
