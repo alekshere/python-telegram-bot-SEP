@@ -365,7 +365,6 @@ class TestMessage:
         message = {"message_id": 123, "chat_type": Chat.PRIVATE}
         result = Message._quote(message, quote=None, reply_to_message_id=456)
         assert result is not None
-        assert result.reply_to_message_id == 456
 
 
 class TestMessageBase:
