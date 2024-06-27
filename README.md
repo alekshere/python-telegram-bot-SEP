@@ -85,7 +85,11 @@ I wrote several tests, which you can find in the following commits:
 - https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 - https://github.com/alekshere/python-telegram-bot-SEP/commit/a97744d468bfc1631df7b45500c79ad8c1082f8c
 
-persistent_load
+<Test 1> for persistent_load (test_picklepersistence.py)
+
+- test_persistent_load_random_pid_should_yield_error
+- test_persistent_load_certain_pid_should_yield_none
+- test_persistent_load_certain_pid_should_yield_bot
 
 https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
@@ -93,7 +97,12 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ![After](ezra-persistent_load-fn-coverage-improvement.png "After")
 
-filter
+<Test 2> for filter (test_filters.py)
+
+- test_filters_message_not_exists_returns_false
+- test_filters_message_no_entities_returns_false
+- test_filters_message_entities_returns_true
+- test_filters_message_entities_not_only_start_returns_true
 
 https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
