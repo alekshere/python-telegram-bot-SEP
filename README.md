@@ -14,11 +14,9 @@ Programming language: Python
 
 ### Existing tool
 
-<Inform the name of the existing tool that was executed and how it was executed>
+coverage.py
 
-<Show the coverage results provided by the existing tool with a screenshot>
-
-### DELTE ------ EZRA \/
+Aleks add screenshot here if you still have lol
 
 ### Your own coverage tool
 
@@ -44,46 +42,6 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ### Individual tests
 
-<The following is supposed to be repeated for each group member>
-
-<Group member name>
-
-<Test 1>
-
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
-
-<Provide a screenshot of the old coverage results (the same as you already showed above)>
-
-<Provide a screenshot of the new coverage results>
-
-<State the coverage improvement with a number and elaborate on why the coverage is improved>
-
-<Test 2>
-
-<Provide the same kind of information provided for Test 1>
-
-### DELETE ------ EZRA \/
-
-### Your own coverage tool
-
-Aleksander Szymczak
-
-resolve
-
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
-
-<Provide a screenshot of the coverage results output by the instrumentation>
-
-_quote
-
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
-
-<Provide a screenshot of the coverage results output by the instrumentation>
-
-## Coverage improvement
-
-### Individual tests
-
 Aleksander Szymczak
 
 <Test 1>
@@ -96,21 +54,31 @@ Aleksander Szymczak
 
 <State the coverage improvement with a number and elaborate on why the coverage is improved>
 
-<Test 2>
+Ezra Berendsen
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
+I wrote several tests, which you can find in the following commits:
+- https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
+- https://github.com/alekshere/python-telegram-bot-SEP/commit/a97744d468bfc1631df7b45500c79ad8c1082f8c
 
-<Provide a screenshot of the old coverage results (the same as you already showed above)>
+persistent_load
 
-<Provide a screenshot of the new coverage results>
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
-<State the coverage improvement with a number and elaborate on why the coverage is improved>
+![Before](ezra-persistent_load-fn-coverage.png "Before")
+
+![After](ezra-persistent_load-fn-coverage-improvement.png "After")
+
+filter
+
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
+
+![Before](ezra-filter-fn-coverage.png "Before")
+
+![After](ezra-filter-fn-coverage-improvement.png "After")
 
 ### Overall
 
-<Provide a screenshot of the old coverage results by running an existing tool (the same as you already showed above)>
-
-<Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group>
+Aleks please post screenshots here of overall coverage improvement
 
 ## Statement of individual contributions
 
