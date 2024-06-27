@@ -14,9 +14,9 @@ Programming language: Python
 
 ### Existing tool
 
-coverage.py
+The tool we have used was: coverage.py. We used it by running coverage run -m pytest in the main directory of the project. The results were extracted using coverage report and coverage html for visual representation.
 
-<Show the coverage results provided by the existing tool with a screenshot>
+![Before](og-total.jpg "Before")
 
 ### Your own coverage tool
 
@@ -38,25 +38,50 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ![After](ezra-filter-fn-coverage-improvement.png "After")
 
+Aleksander Szymczak
+
+resolve
+
+https://github.com/alekshere/python-telegram-bot-SEP/commit/2ae3f82b88bbac1ba2f3d6d4f829cb84b186cb1d
+
+![Before](conversationhandler-resolve-instrumentation.jpg "Before")
+
+\_quote
+
+https://github.com/alekshere/python-telegram-bot-SEP/commit/2b88b64e599e2fbc3242d1375d04fc81dd706fbb
+
+![Before](message-quote-instrumentation.jpg "Before")
+
 ## Coverage improvement
 
 ### Individual tests
 
 Aleksander Szymczak
 
-<Test 1>
+<Test 1> test_pending_state_not_done (conversationhandler)
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
+https://github.com/alekshere/python-telegram-bot-SEP/commit/2ae3f82b88bbac1ba2f3d6d4f829cb84b186cb1d
 
-<Provide a screenshot of the old coverage results (the same as you already showed above)>
+![Before](og-cov-conversationhandlerpy.jpg "Before")
 
-<Provide a screenshot of the new coverage results>
+![After](improved-cov-conversationhandlerpy.jpg "After")
 
-<State the coverage improvement with a number and elaborate on why the coverage is improved>
+Improved from 341 lines covered to 360 lines. I have created a test case which covers the uncovered lines, therefore improving the coverage result.
+
+<Test 2> test_quote_reply_to_message_id_not_none (message)
+
+https://github.com/alekshere/python-telegram-bot-SEP/commit/2b88b64e599e2fbc3242d1375d04fc81dd706fbb
+
+![Before](og-cov-messagepy.jpg "Before")
+
+![After](improved-cov-messagepy.jpg "After")
+
+Improved from 623 lines covered to 633 lines. I have created a test case which covers the uncovered lines, therefore improving the coverage result.
 
 Ezra Berendsen
 
 I wrote several tests, which you can find in the following commits:
+
 - https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 - https://github.com/alekshere/python-telegram-bot-SEP/commit/a97744d468bfc1631df7b45500c79ad8c1082f8c
 
@@ -78,7 +103,7 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ### Overall
 
-Aleks please post screenshots here of overall coverage improvement
+![Before](og-total.jpg "Before")
 
 ## Statement of individual contributions
 
