@@ -24,15 +24,17 @@ Programming language: Python
 
 <The following is supposed to be repeated for each group member>
 
-<Group member name>
+Ezra Berendsen
 
-<Function 1 name>
+persistent_load
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
 <Provide a screenshot of the coverage results output by the instrumentation>
 
-<Function 2 name>
+filter
+
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
 <Provide the same kind of information provided for Function 1>
 
