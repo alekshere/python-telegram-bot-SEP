@@ -87,6 +87,8 @@ from telegram.constants import ZERO_DATE, MessageAttachmentType, ParseMode
 from telegram.helpers import escape_markdown
 from telegram.warnings import PTBDeprecationWarning
 
+# from telegram import Bot
+
 if TYPE_CHECKING:
     from telegram import (
         Bot,

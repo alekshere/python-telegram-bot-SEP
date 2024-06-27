@@ -66,27 +66,25 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ### Your own coverage tool
 
-<The following is supposed to be repeated for each group member>
+Aleksander Szymczak
 
-<Group member name>
-
-<Function 1 name>
+resolve
 
 <Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
 
 <Provide a screenshot of the coverage results output by the instrumentation>
 
-<Function 2 name>
+_quote
 
-<Provide the same kind of information provided for Function 1>
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
+
+<Provide a screenshot of the coverage results output by the instrumentation>
 
 ## Coverage improvement
 
 ### Individual tests
 
-<The following is supposed to be repeated for each group member>
-
-<Group member name>
+Aleksander Szymczak
 
 <Test 1>
 
@@ -100,7 +98,13 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 <Test 2>
 
-<Provide the same kind of information provided for Test 1>
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test>
+
+<Provide a screenshot of the old coverage results (the same as you already showed above)>
+
+<Provide a screenshot of the new coverage results>
+
+<State the coverage improvement with a number and elaborate on why the coverage is improved>
 
 ### Overall
 
@@ -114,8 +118,8 @@ Aleksander Szymczak:
 I identified untested regions of the code, selected two functions with multiple conditional paths, instrumented these functions to measure coverage, and created test cases to cover the selected functions achieving 100% branch coverage.
 
 Files with functions I worked on:
-telegram/ext/_handlers/conversationhandler.py
-telegram/ext/_handlers/conversationhandler.py
+telegram/ext/\_handlers/conversationhandler.py
+telegram/ext/\_handlers/conversationhandler.py
 
 Files with test cases I worked on:
 tests/test_message.py
@@ -125,7 +129,7 @@ Ezra Berendsen:
 I too, identified untested regions of the code, selected two functions with multiple conditional paths, instrumented these functions to measure coverage, and created test cases to cover the selected functions achieving 100% branch coverage.
 
 Files with functions I worked on:
-telegram/ext/_picklepersistence.py
+telegram/ext/\_picklepersistence.py
 telegram/ext/filters.py
 
 Files with test cases I worked on:
