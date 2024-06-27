@@ -45,14 +45,12 @@ resolve
 https://github.com/alekshere/python-telegram-bot-SEP/commit/2ae3f82b88bbac1ba2f3d6d4f829cb84b186cb1d
 
 ![coverage](conversationhandler-resolve-instrumentation.jpg "coverage")
-![Before](ezra-filter-fn-coverage.png "Before")
 
 \_quote
 
 https://github.com/alekshere/python-telegram-bot-SEP/commit/2b88b64e599e2fbc3242d1375d04fc81dd706fbb
 
 ![coverage](message-quote-instrumentation.jpg "coverage")
-![Before](ezra-filter-fn-coverage.png "Before")
 
 ## Coverage improvement
 
