@@ -99,7 +99,7 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ![After](ezra-persistent_load-fn-coverage-improvement.png "After")
 
-I improved the code by adding tests to make sure that when the function is changed in the future, the tests will fail. 
+Improved lines 119-129. I improved the code by adding tests to make sure that when the function is changed in the future, the tests will fail. 
 This way, we can ensure that the function is working as intended.
 
 <Test 2> for filter (test_filters.py)
@@ -115,7 +115,7 @@ https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e466
 
 ![After](ezra-filter-fn-coverage-improvement.png "After")
 
-I improved the code by adding tests to make sure that when the function is changed in the future, the tests will fail.
+Improved lines 983-994. I improved the code by adding tests to make sure that when the function is changed in the future, the tests will fail.
 This way, we can ensure that the function is working as intended.
 
 ### Overall
