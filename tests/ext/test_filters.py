@@ -2774,3 +2774,18 @@ class TestFilters:
         update.message.sender_boost_count = "test"
         assert filters.SENDER_BOOST_COUNT.check_update(update)
         assert str(filters.SENDER_BOOST_COUNT) == "filters.SENDER_BOOST_COUNT"
+
+    def test_filters_message_not_exists_returns_false(self, update):
+        assert filters.Command(False).filter(update.message) is False
+
+    def test_filters_message_no_entities_returns_false(self, update):
+        assert filters.Command(only_start=False).filter(update.message) is False
+
+    def test_filters_message_entities_returns_true(self, update):
+        update.message.entities = [MessageEntity(MessageEntity.BOT_COMMAND, 0, 5)]
+        assert filters.Command(only_start=True).filter(update.message) is True
+
+    def test_filters_message_entities_not_only_start_returns_true(self, update):
+        update.message.entities = [MessageEntity(MessageEntity.BOT_COMMAND, 0, 5)]
+        assert filters.Command(only_start=False).filter(update.message) is True
+

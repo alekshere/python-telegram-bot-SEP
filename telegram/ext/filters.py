@@ -100,9 +100,11 @@ __all__ = (
     "User",
     "ViaBot",
 )
+
 import mimetypes
 import re
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import (
     Collection,
     Dict,
@@ -419,10 +421,10 @@ class _MergedFilter(UpdateFilter):
     __slots__ = ("and_filter", "base_filter", "or_filter")
 
     def __init__(
-        self,
-        base_filter: BaseFilter,
-        and_filter: Optional[BaseFilter] = None,
-        or_filter: Optional[BaseFilter] = None,
+            self,
+            base_filter: BaseFilter,
+            and_filter: Optional[BaseFilter] = None,
+            or_filter: Optional[BaseFilter] = None,
     ):
         super().__init__()
         self.base_filter = base_filter
@@ -430,9 +432,9 @@ class _MergedFilter(UpdateFilter):
             self.data_filter = True
         self.and_filter = and_filter
         if (
-            self.and_filter
-            and not isinstance(self.and_filter, bool)
-            and self.and_filter.data_filter
+                self.and_filter
+                and not isinstance(self.and_filter, bool)
+                and self.and_filter.data_filter
         ):
             self.data_filter = True
         self.or_filter = or_filter
@@ -675,10 +677,10 @@ class _ChatUserBaseFilter(MessageFilter, ABC):
     )
 
     def __init__(
-        self,
-        chat_id: Optional[SCT[int]] = None,
-        username: Optional[SCT[str]] = None,
-        allow_empty: bool = False,
+            self,
+            chat_id: Optional[SCT[int]] = None,
+            username: Optional[SCT[str]] = None,
+            allow_empty: bool = False,
     ):
         super().__init__()
         self._chat_id_name: str = "chat_id"
@@ -692,7 +694,8 @@ class _ChatUserBaseFilter(MessageFilter, ABC):
         self._set_usernames(username)
 
     @abstractmethod
-    def _get_chat_or_user(self, message: Message) -> Union[TGChat, TGUser, None]: ...
+    def _get_chat_or_user(self, message: Message) -> Union[TGChat, TGUser, None]:
+        ...
 
     def _set_chat_ids(self, chat_id: Optional[SCT[int]]) -> None:
         if chat_id and self._usernames:
@@ -945,6 +948,12 @@ class ChatType:  # A convenience namespace for Chat types.
     """Updates from supergroup."""
 
 
+branch_coverage = {
+    "201": False,
+    "202": False,
+}
+
+
 class Command(MessageFilter):
     """
     Messages with a :attr:`telegram.MessageEntity.BOT_COMMAND`. By default, only allows
@@ -973,12 +982,15 @@ class Command(MessageFilter):
 
     def filter(self, message: Message) -> bool:
         if not message.entities:
+            branch_coverage["201"] = True
             return False
 
         first = message.entities[0]
 
         if self.only_start:
+            branch_coverage["202"] = True
             return bool(first.type == MessageEntity.BOT_COMMAND and first.offset == 0)
+        branch_coverage["203"] = True
         return bool(any(e.type == MessageEntity.BOT_COMMAND for e in message.entities))
 
 
@@ -989,6 +1001,37 @@ Examples:
     To allow messages starting with a command use
     ``MessageHandler(filters.COMMAND, command_at_start_callback)``.
 """
+
+# case 1: message.entities is None
+c = Command(only_start=False)
+c.filter(Message(
+    message_id=1,
+    chat=TGChat(1, "test"),
+    date=datetime.utcnow(),
+    entities=None,
+))
+
+# case 2: message.entities is not None and self.only_start is True
+c = Command(only_start=True)
+c.filter(Message(
+    message_id=1,
+    chat=TGChat(1, "test"),
+    date=datetime.utcnow(),
+    entities=[MessageEntity(type=MessageEntity.BOT_COMMAND, offset=0, length=len("/start"))],
+))
+
+# case 3: message.entities is not None and self.only_start is False
+c = Command(only_start=False)
+c.filter(Message(
+    message_id=1,
+    chat=TGChat(1, "test"),
+    date=datetime.utcnow(),
+    entities=[MessageEntity(type=MessageEntity.BOT_COMMAND, offset=0, length=len("/start"))],
+))
+
+print("Branch coverage:")
+for branch, hit in branch_coverage.items():
+    print(f"{branch} was {'hit' if hit else 'not hit'}")
 
 
 class _Contact(MessageFilter):
@@ -2347,8 +2390,8 @@ class Sticker:
 
         def filter(self, message: Message) -> bool:
             return bool(message.sticker) and (
-                not bool(message.sticker.is_animated)  # type: ignore[union-attr]
-                and not bool(message.sticker.is_video)  # type: ignore[union-attr]
+                    not bool(message.sticker.is_animated)  # type: ignore[union-attr]
+                    and not bool(message.sticker.is_video)  # type: ignore[union-attr]
             )
 
     STATIC = _Static(name="filters.Sticker.STATIC")
@@ -2534,9 +2577,9 @@ class UpdateType:
 
         def filter(self, update: Update) -> bool:
             return (
-                update.edited_message is not None
-                or update.edited_channel_post is not None
-                or update.edited_business_message is not None
+                    update.edited_message is not None
+                    or update.edited_channel_post is not None
+                    or update.edited_business_message is not None
             )
 
     EDITED = _Edited(name="filters.UpdateType.EDITED")
@@ -2618,7 +2661,7 @@ class UpdateType:
 
         def filter(self, update: Update) -> bool:
             return (
-                update.business_message is not None or update.edited_business_message is not None
+                    update.business_message is not None or update.edited_business_message is not None
             )
 
     BUSINESS_MESSAGES = _BusinessMessages(name="filters.UpdateType.BUSINESS_MESSAGES")
@@ -2655,10 +2698,10 @@ class User(_ChatUserBaseFilter):
     __slots__ = ()
 
     def __init__(
-        self,
-        user_id: Optional[SCT[int]] = None,
-        username: Optional[SCT[str]] = None,
-        allow_empty: bool = False,
+            self,
+            user_id: Optional[SCT[int]] = None,
+            username: Optional[SCT[str]] = None,
+            allow_empty: bool = False,
     ):
         super().__init__(chat_id=user_id, username=username, allow_empty=allow_empty)
         self._chat_id_name = "user_id"
@@ -2793,10 +2836,10 @@ class ViaBot(_ChatUserBaseFilter):
     __slots__ = ()
 
     def __init__(
-        self,
-        bot_id: Optional[SCT[int]] = None,
-        username: Optional[SCT[str]] = None,
-        allow_empty: bool = False,
+            self,
+            bot_id: Optional[SCT[int]] = None,
+            username: Optional[SCT[str]] = None,
+            allow_empty: bool = False,
     ):
         super().__init__(chat_id=bot_id, username=username, allow_empty=allow_empty)
         self._chat_id_name = "bot_id"

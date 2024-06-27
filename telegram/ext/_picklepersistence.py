@@ -101,9 +101,10 @@ class _BotPickler(pickle.Pickler):
         return None  # pickles as usual
 
 
-coverage_branch = {
+branch_coverage = {
     "101": False,
     "102": False,
+    "103": False,
 }
 
 
@@ -117,11 +118,13 @@ class _BotUnpickler(pickle.Unpickler):
     def persistent_load(self, pid: str) -> Optional[Bot]:
         """Replaces the bot with the current bot if known, else it is replaced by :obj:`None`."""
         if pid == _REPLACED_KNOWN_BOT:
-            coverage_branch["101"] = True
+            branch_coverage["101"] = True
             return self._bot
         if pid == _REPLACED_UNKNOWN_BOT:
-            coverage_branch["102"] = True
+            branch_coverage["102"] = True
             return None
+
+        branch_coverage["103"] = True
         raise pickle.UnpicklingError("Found unknown persistent id when unpickling!")
 
 
@@ -133,6 +136,25 @@ we return None
 case 3: pid != _REPLACED_KNOWN_BOT and pid != _REPLACED_UNKNOWN_BOT
 we raise pickle.UnpicklingError
 """
+
+botUnpicker = _BotUnpickler(Bot("token"))
+
+# case 1:
+botUnpicker.persistent_load(_REPLACED_KNOWN_BOT)
+
+# case 2:
+botUnpicker.persistent_load(_REPLACED_UNKNOWN_BOT)
+
+# case 3:
+try:
+    botUnpicker.persistent_load("unknown")
+except pickle.UnpicklingError:
+    pass
+
+print("Branch coverage:")
+for branch, hit in branch_coverage.items():
+    print(f"{branch} was {'hit' if hit else 'not hit'}")
+
 
 
 class PicklePersistence(BasePersistence[UD, CD, BD]):
