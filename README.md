@@ -16,7 +16,7 @@ Programming language: Python
 
 coverage.py
 
-Aleks add screenshot here if you still have lol
+<Show the coverage results provided by the existing tool with a screenshot>
 
 ### Your own coverage tool
 
