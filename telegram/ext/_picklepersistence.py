@@ -19,6 +19,7 @@
 """This module contains the PicklePersistence class."""
 import pickle
 from copy import deepcopy
+from io import StringIO
 from pathlib import Path
 from typing import Any, Callable, Dict, Optional, Set, Tuple, Type, TypeVar, Union, cast, overload
 
@@ -75,7 +76,7 @@ class _BotPickler(pickle.Pickler):
         super().__init__(*args, **kwargs)
 
     def reducer_override(
-        self, obj: TelegramObj
+            self, obj: TelegramObj
     ) -> Tuple[Callable, Tuple[Type[TelegramObj], dict]]:
         """
         This method is used for pickling. The bot attribute is preserved so
@@ -101,6 +102,13 @@ class _BotPickler(pickle.Pickler):
         return None  # pickles as usual
 
 
+branch_coverage = {
+    "101": False,
+    "102": False,
+    "103": False,
+}
+
+
 class _BotUnpickler(pickle.Unpickler):
     __slots__ = ("_bot",)
 
@@ -111,10 +119,35 @@ class _BotUnpickler(pickle.Unpickler):
     def persistent_load(self, pid: str) -> Optional[Bot]:
         """Replaces the bot with the current bot if known, else it is replaced by :obj:`None`."""
         if pid == _REPLACED_KNOWN_BOT:
+            branch_coverage["101"] = True
             return self._bot
         if pid == _REPLACED_UNKNOWN_BOT:
+            branch_coverage["102"] = True
             return None
+
+        branch_coverage["103"] = True
         raise pickle.UnpicklingError("Found unknown persistent id when unpickling!")
+
+
+"""
+botUnpicker = _BotUnpickler(Bot("token"), file=StringIO())
+
+# case 1: pid == _REPLACED_KNOWN_BOT
+botUnpicker.persistent_load(_REPLACED_KNOWN_BOT)
+
+# case 2: pid == _REPLACED_UNKNOWN_BOT
+botUnpicker.persistent_load(_REPLACED_UNKNOWN_BOT)
+
+# case 3: pid != _REPLACED_KNOWN_BOT and pid != _REPLACED_UNKNOWN_BOT
+try:
+    botUnpicker.persistent_load("unknown")
+except pickle.UnpicklingError:
+    pass
+
+print("Branch coverage:")
+for branch, hit in branch_coverage.items():
+    print(f"{branch} was {'hit' if hit else 'not hit'}")
+"""
 
 
 class PicklePersistence(BasePersistence[UD, CD, BD]):
@@ -199,33 +232,35 @@ class PicklePersistence(BasePersistence[UD, CD, BD]):
 
     @overload
     def __init__(
-        self: "PicklePersistence[Dict[Any, Any], Dict[Any, Any], Dict[Any, Any]]",
-        filepath: FilePathInput,
-        store_data: Optional[PersistenceInput] = None,
-        single_file: bool = True,
-        on_flush: bool = False,
-        update_interval: float = 60,
-    ): ...
+            self: "PicklePersistence[Dict[Any, Any], Dict[Any, Any], Dict[Any, Any]]",
+            filepath: FilePathInput,
+            store_data: Optional[PersistenceInput] = None,
+            single_file: bool = True,
+            on_flush: bool = False,
+            update_interval: float = 60,
+    ):
+        ...
 
     @overload
     def __init__(
-        self: "PicklePersistence[UD, CD, BD]",
-        filepath: FilePathInput,
-        store_data: Optional[PersistenceInput] = None,
-        single_file: bool = True,
-        on_flush: bool = False,
-        update_interval: float = 60,
-        context_types: Optional[ContextTypes[Any, UD, CD, BD]] = None,
-    ): ...
+            self: "PicklePersistence[UD, CD, BD]",
+            filepath: FilePathInput,
+            store_data: Optional[PersistenceInput] = None,
+            single_file: bool = True,
+            on_flush: bool = False,
+            update_interval: float = 60,
+            context_types: Optional[ContextTypes[Any, UD, CD, BD]] = None,
+    ):
+        ...
 
     def __init__(
-        self,
-        filepath: FilePathInput,
-        store_data: Optional[PersistenceInput] = None,
-        single_file: bool = True,
-        on_flush: bool = False,
-        update_interval: float = 60,
-        context_types: Optional[ContextTypes[Any, UD, CD, BD]] = None,
+            self,
+            filepath: FilePathInput,
+            store_data: Optional[PersistenceInput] = None,
+            single_file: bool = True,
+            on_flush: bool = False,
+            update_interval: float = 60,
+            context_types: Optional[ContextTypes[Any, UD, CD, BD]] = None,
     ):
         super().__init__(store_data=store_data, update_interval=update_interval)
         self.filepath: Path = Path(filepath)
@@ -386,7 +421,7 @@ class PicklePersistence(BasePersistence[UD, CD, BD]):
         return self.conversations.get(name, {}).copy()  # type: ignore[union-attr]
 
     async def update_conversation(
-        self, name: str, key: ConversationKey, new_state: Optional[object]
+            self, name: str, key: ConversationKey, new_state: Optional[object]
     ) -> None:
         """Will update the conversations for the given handler and depending on :attr:`on_flush`
         save the pickle file.
@@ -542,11 +577,11 @@ class PicklePersistence(BasePersistence[UD, CD, BD]):
         """Will save all data in memory to pickle file(s)."""
         if self.single_file:
             if (
-                self.user_data
-                or self.chat_data
-                or self.bot_data
-                or self.callback_data
-                or self.conversations
+                    self.user_data
+                    or self.chat_data
+                    or self.bot_data
+                    or self.callback_data
+                    or self.conversations
             ):
                 self._dump_singlefile()
         else:

@@ -22,19 +22,23 @@ Programming language: Python
 
 ### Your own coverage tool
 
-<The following is supposed to be repeated for each group member>
+Ezra Berendsen
 
-<Group member name>
+persistent_load
 
-<Function 1 name>
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
 
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
+![Before](ezra-persistent_load-fn-coverage.png "Before")
 
-<Provide a screenshot of the coverage results output by the instrumentation>
+![After](ezra-persistent_load-fn-coverage-improvement.png "After")
 
-<Function 2 name>
+filter
 
-<Provide the same kind of information provided for Function 1>
+https://github.com/alekshere/python-telegram-bot-SEP/commit/b336ac447f4d6f49e4665ce0759243217c418e27
+
+![Before](ezra-filter-fn-coverage.png "Before")
+
+![After](ezra-filter-fn-coverage-improvement.png "After")
 
 ## Coverage improvement
 
@@ -116,3 +120,14 @@ telegram/ext/_handlers/conversationhandler.py
 Files with test cases I worked on:
 tests/test_message.py
 tests/ext/test_conversationhandler.py
+
+Ezra Berendsen:
+I too, identified untested regions of the code, selected two functions with multiple conditional paths, instrumented these functions to measure coverage, and created test cases to cover the selected functions achieving 100% branch coverage.
+
+Files with functions I worked on:
+telegram/ext/_picklepersistence.py
+telegram/ext/filters.py
+
+Files with test cases I worked on:
+tests/ext/test_picklepersistence.py
+tests/ext/test_filters.py

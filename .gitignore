@@ -95,3 +95,4 @@ venv*
 
 # environment manager:
 .mise.toml
+*.coverage
